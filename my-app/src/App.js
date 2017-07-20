@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import './App.css';
 import NavBar from './components/NavBar';
 import Section from './components/Section';
+import store from './state/store';
 
 
 class App extends Component {
@@ -14,7 +15,7 @@ class App extends Component {
       name:'Marco',
       message: 'hola como estan?',
       showName: true,
-      currentSection: 'Section 1',
+      currentSection: 'Section 5',
     };
   }
 
@@ -23,33 +24,39 @@ class App extends Component {
     this.setState({showName: !showName});
   }
 
-  changeCurrentSection(currentSection) {
+  /*changeCurrentSection(currentSection) {
     this.setState({currentSection});
-  }
+  }*/
 
   render() {
-    const {name , message, showName, currentSection} = this.state;
+    //const {name , message, showName, currentSection} = this.state;
+    const {name , message, showName} = this.state;
+    const {currentSection} = this.props;
     const sections = ['Section 1','Section 2', 'Section 3'];
     const renderShowName = showName
                   ? <p className="App-intro">
                         {`${name}, ${message}`}
                     </p>
                   : undefined;
+
+    console.log(currentSection);
+    console.log(this.props.currentSection);
+
     return (
-      <div className="App">
-        <div className="App-header">
-            <NavBar sections = {sections} changeSection = {this.changeCurrentSection.bind(this)}/>
+        <div className="App">
+            <div className="App-header">
+                <NavBar sections = {sections}/>
 
+            </div>
+            <Section name={currentSection}/>
+
+            <div onClick= {this.setShowName.bind(this)}>show Name</div>
+              {renderShowName}
+
+            <p className="App-intro">
+              {`${name},${message}`}
+            </p>
         </div>
-        <Section name={currentSection}/>
-
-        <div onClick= {this.setShowName.bind(this)}>show Name</div>
-          {renderShowName}
-
-        <p className="App-intro">
-          {`${name},${message}`}
-        </p>
-      </div>
     );
   }
 }
